@@ -1,69 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
-import { ErrorsStyled, InputStyled, validate } from './form';
-import { useDispatch, useSelector } from 'react-redux';
-import { SVActions } from '../../store/SinhVienReducer/slice';
+import { ErrorsStyled, InputStyled } from './FormStyled';
+import { FormContext } from '../../context/FormContext';
 
 const Form = () => {
-    const [inputs, setInputs] = useState({});
-    const [errors, setErrors] = useState({});
-
-    const dispatch = useDispatch();
-    const { editingStudent } = useSelector(state => state.SVReducer);
-
-    const handleInputs = () => e => {
-        const { value, name } = e.target;
-
-        setInputs({
-            ...inputs,
-            [name]: value,
-        });
-
-        setErrors({
-            ...errors,
-            [e.target.name]: '',
-        });
-    };
-
-    const handleValidate = () => e => {
-        const mess = validate(e.target);
-        setErrors({
-            ...errors,
-            [e.target.name]: mess,
-        });
-    };
-
-    const handleOnSubmit = () => e => {
-        e.preventDefault();
-        const inputsNode = document.querySelectorAll('input[name]');
-
-        let isTrue = true;
-        let submitErrors = {};
-
-        inputsNode.forEach(input => {
-            const mess = validate(input);
-            if (mess) {
-                isTrue = false;
-            }
-            submitErrors = { ...submitErrors, [input.name]: mess };
-        });
-        setErrors(submitErrors);
-
-        if (!isTrue) return;
-
-        if (!editingStudent) {
-            dispatch(SVActions.addStudent(inputs));
-        } else {
-            dispatch(SVActions.editStudent(inputs));
-        }
-        setInputs({});
-    };
-
-    useEffect(() => {
-        if (!editingStudent) return;
-        setInputs(editingStudent);
-    }, [editingStudent]);
-
+    const { handleInputs, handleValidate, handleOnSubmit, inputs, errors, editingStudent } = useContext(FormContext);
     return (
         <div className='max-w-screen-lg mx-auto border'>
             <h1 className='text-center bg-slate-900 text-white text-2xl font-bold p-2 mb-0'>Thông tin sinh viên</h1>

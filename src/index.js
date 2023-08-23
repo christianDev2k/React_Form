@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { FormProvider } from './context/FormContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-          <App />
+            <FormProvider>
+                <App />
+            </FormProvider>
         </Provider>
     </React.StrictMode>
 );
