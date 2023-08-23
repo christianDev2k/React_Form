@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
-import styled from 'styled-components';
-import { validate } from './form';
+import { ErrorsStyled, InputStyled, validate } from './form';
 import { useDispatch, useSelector } from 'react-redux';
 import { SVActions } from '../../store/SinhVienReducer/slice';
-
-const InputStyled = styled.input`
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 6px 16px;
-    width: 100%;
-    margin-top: 8px;
-`;
-
-const ErrorsStyled = styled.small`
-    font-size: 14px;
-    color: rgba(255, 0, 0, 0.8);
-`;
 
 const Form = () => {
     const [inputs, setInputs] = useState({});
@@ -78,8 +64,6 @@ const Form = () => {
         setInputs(editingStudent);
     }, [editingStudent]);
 
-    console.log(inputs);
-
     return (
         <div className='max-w-screen-lg mx-auto border'>
             <h1 className='text-center bg-slate-900 text-white text-2xl font-bold p-2 mb-0'>Thông tin sinh viên</h1>
@@ -124,7 +108,7 @@ const Form = () => {
                             name='phone'
                             value={inputs.phone || ''}
                             required
-                            pattern='^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$'
+                            pattern='(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b'
                             onChange={handleInputs()}
                             onBlur={handleValidate()}
                         />
