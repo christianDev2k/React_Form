@@ -6,6 +6,7 @@ export const InputStyled = styled.input`
     padding: 6px 16px;
     width: 100%;
     margin-top: 8px;
+    display: block;
 `;
 
 export const ErrorsStyled = styled.small`

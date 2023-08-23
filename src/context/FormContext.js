@@ -24,7 +24,6 @@ const FormProvider = ({ children }) => {
         } else if (patternMismatch) {
             mess = 'Bạn nhập sai format rồi. Nhập lại giúp tớ nhé!';
         }
-
         return mess;
     };
 
@@ -73,7 +72,7 @@ const FormProvider = ({ children }) => {
         } else {
             dispatch(SVActions.editStudent(inputs));
         }
-        setInputs({});
+        // setInputs({});
     };
 
     useEffect(() => {
@@ -87,7 +86,7 @@ const FormProvider = ({ children }) => {
         handleOnSubmit,
         inputs,
         errors,
-        editingStudent
+        editingStudent,
     };
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

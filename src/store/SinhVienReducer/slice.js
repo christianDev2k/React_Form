@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     students: [],
     editingStudent: undefined,
+    searchResults: [],
 };
 
 const SinhVienReducer = createSlice({
@@ -25,6 +26,15 @@ const SinhVienReducer = createSlice({
         getStudent: (state, { payload }) => {
             let student = state.students.filter(student => student.id === payload);
             state.editingStudent = student[0];
+        },
+        searchStudent: (state, { payload }) => {
+            if (payload === undefined) {
+                state.searchResults = [];
+            } else {
+                state.searchResults = state.students.filter(student =>
+                    student.name.toLowerCase().includes(payload.toLowerCase())
+                );
+            }
         },
     },
 });
