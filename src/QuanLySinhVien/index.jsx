@@ -4,7 +4,7 @@ import Table from './Table';
 
 const QuanLySinhVien = () => {
     return (
-        <div className='container-md mx-auto px-2 pt-5'>
+        <div className='container-md mx-auto px-2 py-5'>
             <Form />
             <Table />
         </div>

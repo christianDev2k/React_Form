@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './table.module.scss';
 import { ButtonStyled } from '../GlobalStyles';
 import { SVActions } from '../../store/SinhVienReducer/slice';
+import { FormContext } from '../../context/FormContext';
 
 const Table = () => {
     const [searchValue, setSearchValue] = useState('');
     const { students, searchResults } = useSelector(state => state.SVReducer);
     const dispatch = useDispatch();
+    const { setErrors } = useContext(FormContext);
 
     const handleDelete = id => () => {
         dispatch(SVActions.deleteStudent(id));
@@ -15,6 +17,7 @@ const Table = () => {
 
     const handleEdit = id => () => {
         dispatch(SVActions.getStudent(id));
+        setErrors({});
     };
 
     const handleSearch = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState, createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SVActions } from '../store/SinhVienReducer/slice';
@@ -6,11 +6,12 @@ import { SVActions } from '../store/SinhVienReducer/slice';
 const FormContext = createContext();
 
 const FormProvider = ({ children }) => {
-    const [inputs, setInputs] = useState({});
+    let [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});
+    const [idValue, setIdValue] = useState(1);
 
     const dispatch = useDispatch();
-    const { editingStudent } = useSelector(state => state.SVReducer);
+    const { editingStudent, students } = useSelector(state => state.SVReducer);
 
     const validate = element => {
         const { minLength, maxLength } = element;
@@ -65,28 +66,32 @@ const FormProvider = ({ children }) => {
         });
         setErrors(submitErrors);
 
-        if (!isTrue) return;
-
-        if (!editingStudent) {
-            dispatch(SVActions.addStudent(inputs));
-        } else {
-            dispatch(SVActions.editStudent(inputs));
+        if (isTrue) {
+            if (!editingStudent) {
+                inputs = {
+                    ...inputs,
+                    id: idValue,
+                };
+                dispatch(SVActions.addStudent(inputs));
+                setIdValue(pre => pre + 1);
+            } else {
+                dispatch(SVActions.editStudent(inputs));
+            }
+            setInputs({});
         }
-        // setInputs({});
     };
-
-    useEffect(() => {
-        if (!editingStudent) return;
-        setInputs(editingStudent);
-    }, [editingStudent]);
 
     const value = {
         handleInputs,
         handleValidate,
         handleOnSubmit,
+        setInputs,
+        setErrors,
         inputs,
         errors,
         editingStudent,
+        students,
+        idValue,
     };
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

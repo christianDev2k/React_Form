@@ -1,10 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
 import { ErrorsStyled, InputStyled } from './FormStyled';
 import { FormContext } from '../../context/FormContext';
 
 const Form = () => {
-    const { handleInputs, handleValidate, handleOnSubmit, inputs, errors, editingStudent } = useContext(FormContext);
+    const { handleInputs, handleValidate, handleOnSubmit, setInputs, inputs, errors, editingStudent, idValue } =
+        useContext(FormContext);
+
+    useEffect(() => {
+        if (!editingStudent) return;
+        setInputs(editingStudent);
+    }, [editingStudent, setInputs]);
+
     return (
         <div className='max-w-screen-lg mx-auto border'>
             <h1 className='text-center bg-slate-900 text-white text-2xl font-bold p-2 mb-0'>Thông tin sinh viên</h1>
@@ -15,14 +22,15 @@ const Form = () => {
                         <InputStyled
                             type='text'
                             name='id'
-                            value={inputs.id || ''}
-                            required
-                            disabled={!!editingStudent}
-                            minLength={4}
-                            maxLength={6}
-                            pattern='^[0-9]*$'
-                            onChange={handleInputs()}
-                            onBlur={handleValidate()}
+                            value={editingStudent ? inputs.id : idValue}
+                            disabled
+                            // disabled={!!editingStudent}
+                            // required
+                            // minLength={4}
+                            // maxLength={6}
+                            // pattern='^[0-9]*$'
+                            // onChange={handleInputs()}
+                            // onBlur={handleValidate()}
                         />
                         {errors.id && <ErrorsStyled>{errors.id}</ErrorsStyled>}
                     </div>
@@ -31,11 +39,11 @@ const Form = () => {
                         <InputStyled
                             type='text'
                             name='name'
+                            value={inputs.name || ''}
                             spellCheck='false'
                             required
                             pattern='^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" + "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" + "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$'
                             onChange={handleInputs()}
-                            value={inputs.name || ''}
                             onBlur={handleValidate()}
                         />
                         {errors.name && <ErrorsStyled>{errors.name}</ErrorsStyled>}
