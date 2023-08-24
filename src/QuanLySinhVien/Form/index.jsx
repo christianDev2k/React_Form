@@ -19,19 +19,7 @@ const Form = () => {
                 <div className='grid grid-cols-2 gap-4'>
                     <div>
                         <label htmlFor=''>Mã sinh viên</label>
-                        <InputStyled
-                            type='text'
-                            name='id'
-                            value={editingStudent ? inputs.id : idValue}
-                            disabled
-                            // disabled={!!editingStudent}
-                            // required
-                            // minLength={4}
-                            // maxLength={6}
-                            // pattern='^[0-9]*$'
-                            // onChange={handleInputs()}
-                            // onBlur={handleValidate()}
-                        />
+                        <InputStyled type='text' name='id' value={editingStudent ? inputs.id : idValue} disabled />
                         {errors.id && <ErrorsStyled>{errors.id}</ErrorsStyled>}
                     </div>
                     <div>
