@@ -11,7 +11,7 @@ const Table = () => {
     const { students, searchResults } = useSelector(state => state.SVReducer);
     const dispatch = useDispatch();
     const { setErrors } = useContext(FormContext);
-
+    
     const handleDelete = id => () => {
         dispatch(SVActions.deleteStudent(id));
         dispatch(SVActions.searchStudent(undefined));

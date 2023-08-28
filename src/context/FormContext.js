@@ -81,7 +81,7 @@ const FormProvider = ({ children }) => {
                 dispatch(SVActions.searchStudent(undefined));
                 toast.success('Chỉnh sửa thành công!');
             }
-            // setInputs({});
+            setInputs({});
         }
     };
 
