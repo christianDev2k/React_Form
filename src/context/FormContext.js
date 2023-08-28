@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SVActions } from '../store/SinhVienReducer/slice';
+import { toast } from 'react-toastify';
 
 const FormContext = createContext();
 
@@ -74,10 +75,13 @@ const FormProvider = ({ children }) => {
                 };
                 dispatch(SVActions.addStudent(inputs));
                 setIdValue(pre => pre + 1);
+                toast.success('Thêm sinh viên thành công!');
             } else {
                 dispatch(SVActions.editStudent(inputs));
+                dispatch(SVActions.searchStudent(undefined));
+                toast.success('Chỉnh sửa thành công!');
             }
-            setInputs({});
+            // setInputs({});
         }
     };
 

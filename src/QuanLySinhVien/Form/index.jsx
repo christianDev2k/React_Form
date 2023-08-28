@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
 import { ErrorsStyled, InputStyled } from './FormStyled';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../../context';
 
 const Form = () => {
     const { handleInputs, handleValidate, handleOnSubmit, setInputs, inputs, errors, editingStudent, idValue } =

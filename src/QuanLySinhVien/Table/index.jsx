@@ -4,6 +4,7 @@ import './table.module.scss';
 import { ButtonStyled } from '../GlobalStyles';
 import { SVActions } from '../../store/SinhVienReducer/slice';
 import { FormContext } from '../../context/FormContext';
+import { toast } from 'react-toastify';
 
 const Table = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -13,6 +14,8 @@ const Table = () => {
 
     const handleDelete = id => () => {
         dispatch(SVActions.deleteStudent(id));
+        dispatch(SVActions.searchStudent(undefined));
+        toast.error('Xóa sinh viên thành công!');
     };
 
     const handleEdit = id => () => {
