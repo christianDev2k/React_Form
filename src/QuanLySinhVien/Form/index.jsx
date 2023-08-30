@@ -4,7 +4,7 @@ import { ErrorsStyled, InputStyled } from './FormStyled';
 import { FormContext } from '../../context';
 
 const Form = () => {
-    const { handleInputs, handleValidate, handleOnSubmit, setInputs, inputs, errors, editingStudent, idValue } =
+    const { handleInputs, handleValidate, handleOnSubmit, setInputs, inputs, errors, editingStudent } =
         useContext(FormContext);
 
     useEffect(() => {
@@ -19,7 +19,18 @@ const Form = () => {
                 <div className='grid grid-cols-2 gap-4'>
                     <div>
                         <label htmlFor=''>Mã sinh viên</label>
-                        <InputStyled type='text' name='id' value={editingStudent ? inputs.id : idValue} disabled />
+                        <InputStyled
+                            type='text'
+                            name='id'
+                            required
+                            value={inputs.id || ''}
+                            placeholder='Mã sinh viên tối đa 6 kí tự chữ và số'
+                            disabled={editingStudent}
+                            maxLength='6'
+                            pattern='^[a-zA-Z0-9]*$'
+                            onChange={handleInputs()}
+                            onBlur={handleValidate()}
+                        />
                         {errors.id && <ErrorsStyled>{errors.id}</ErrorsStyled>}
                     </div>
                     <div>
@@ -28,6 +39,7 @@ const Form = () => {
                             type='text'
                             name='name'
                             value={inputs.name || ''}
+                            placeholder='Nguyen Van A'
                             spellCheck='false'
                             required
                             pattern='^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" + "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" + "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$'
@@ -44,6 +56,7 @@ const Form = () => {
                             type='text'
                             name='phone'
                             value={inputs.phone || ''}
+                            placeholder='VD: 0976777777'
                             required
                             pattern='(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b'
                             onChange={handleInputs()}
@@ -58,6 +71,7 @@ const Form = () => {
                             name='email'
                             required
                             value={inputs.email || ''}
+                            placeholder='nhandeptrai@gmail.com'
                             pattern='^[a-zA-Z][a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$'
                             onChange={handleInputs()}
                             onBlur={handleValidate()}

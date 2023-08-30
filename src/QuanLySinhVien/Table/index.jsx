@@ -1,36 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './table.module.scss';
+import React, { useContext, useEffect } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
-import { SVActions } from '../../store/SinhVienReducer/slice';
-import { FormContext } from '../../context/FormContext';
-import { toast } from 'react-toastify';
+import { TableContext } from '../../context/TableContext';
+import { useSelector } from 'react-redux';
+
+import './table.module.scss';
 
 const Table = () => {
-    const [searchValue, setSearchValue] = useState('');
+    const { searchValue, setSearchValue, handleSearch, handleCancelSearch, handleEdit, handleDelete } =
+        useContext(TableContext);
     const { students, searchResults } = useSelector(state => state.SVReducer);
-    const dispatch = useDispatch();
-    const { setErrors } = useContext(FormContext);
-    
-    const handleDelete = id => () => {
-        dispatch(SVActions.deleteStudent(id));
-        dispatch(SVActions.searchStudent(undefined));
-        toast.error('Xóa sinh viên thành công!');
-    };
-
-    const handleEdit = id => () => {
-        dispatch(SVActions.getStudent(id));
-        setErrors({});
-    };
-
-    const handleSearch = () => {
-        dispatch(SVActions.searchStudent(searchValue));
-    };
-
-    const handleCancelSearch = () => {
-        dispatch(SVActions.searchStudent());
-        setSearchValue('');
-    };
 
     return (
         <div className='max-w-screen-lg mx-auto border mt-4'>
@@ -48,8 +26,10 @@ const Table = () => {
                         placeholder='Nguyễn Văn A'
                         className='block w-1/2 mr-2 rounded-md border border-gray-400 py-1.5 px-2 text-gray-900'
                     />
-                    <ButtonStyled onClick={handleSearch}>Tìm kiếm</ButtonStyled>
-                    {searchResults.length ? (
+                    <ButtonStyled onClick={handleSearch} disabled={!searchValue}>
+                        Tìm kiếm
+                    </ButtonStyled>
+                    {searchResults?.length ? (
                         <ButtonStyled type='danger' onClick={handleCancelSearch} className='ml-2'>
                             Hủy bỏ
                         </ButtonStyled>
@@ -68,7 +48,7 @@ const Table = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(searchResults.length ? searchResults : students).map(student => (
+                    {(searchResults?.length ? searchResults : students).map(student => (
                         <tr key={student.id}>
                             <td>{student.id}</td>
                             <td>{student.name}</td>

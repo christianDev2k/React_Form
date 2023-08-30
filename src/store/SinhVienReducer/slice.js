@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     students: [],
     editingStudent: undefined,
-    searchResults: [],
+    searchResults: undefined,
 };
 
 const SinhVienReducer = createSlice({
@@ -24,16 +24,20 @@ const SinhVienReducer = createSlice({
             state.editingStudent = undefined;
         },
         getStudent: (state, { payload }) => {
-            let student = state.students.filter(student => student.id === payload);
-            state.editingStudent = student[0];
+            if (payload) {
+                const index = state.students.findIndex(student => student.id === payload);
+                state.editingStudent = state.students[index];
+            } else {
+                state.editingStudent = undefined;
+            }
         },
         searchStudent: (state, { payload }) => {
-            if (payload === undefined) {
-                state.searchResults = [];
-            } else {
+            if (payload) {
                 state.searchResults = state.students.filter(student =>
                     student.name.toLowerCase().includes(payload.toLowerCase())
                 );
+            } else {
+                state.searchResults = undefined;
             }
         },
     },

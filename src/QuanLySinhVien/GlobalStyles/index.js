@@ -6,9 +6,15 @@ export const ButtonStyled = styled.button`
     transition: all 0.25s;
     color: #fff;
     border: 1px solid transparent;
+
     &:hover {
         opacity: 0.8;
     }
+
+    &:disabled {
+        opacity: 0.7;
+    }
+
     ${props =>
         props.type === 'danger'
             ? `

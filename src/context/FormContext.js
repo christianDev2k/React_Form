@@ -9,22 +9,25 @@ const FormContext = createContext();
 const FormProvider = ({ children }) => {
     let [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});
-    const [idValue, setIdValue] = useState(1);
 
     const dispatch = useDispatch();
     const { editingStudent, students } = useSelector(state => state.SVReducer);
 
     const validate = element => {
-        const { minLength, maxLength } = element;
-        const { valueMissing, tooLong, tooShort, patternMismatch } = element.validity;
+        const { valueMissing, patternMismatch } = element.validity;
+
+        function isIDDuplicate(id) {
+            if (editingStudent) return students.some(student => student.id === id && editingStudent.id !== id);
+            return students.some(student => student.id === id);
+        }
 
         let mess = '';
         if (valueMissing) {
-            mess = 'Bạn nhập thiếu rồi nè!';
-        } else if (tooLong || tooShort) {
-            mess = `Ô này bạn nhập từ ${minLength} - ${maxLength} chữ số nha!`;
+            mess = 'Vui lòng nhập ô này';
         } else if (patternMismatch) {
-            mess = 'Bạn nhập sai format rồi. Nhập lại giúp tớ nhé!';
+            mess = 'Nhập sai cú pháp';
+        } else if (element.name === 'id' && isIDDuplicate(element.value)) {
+            mess = 'ID bị trùng lặp';
         }
         return mess;
     };
@@ -69,18 +72,13 @@ const FormProvider = ({ children }) => {
 
         if (isTrue) {
             if (!editingStudent) {
-                inputs = {
-                    ...inputs,
-                    id: idValue,
-                };
                 dispatch(SVActions.addStudent(inputs));
-                setIdValue(pre => pre + 1);
                 toast.success('Thêm sinh viên thành công!');
             } else {
                 dispatch(SVActions.editStudent(inputs));
-                dispatch(SVActions.searchStudent(undefined));
                 toast.success('Chỉnh sửa thành công!');
             }
+            dispatch(SVActions.searchStudent(undefined));
             setInputs({});
         }
     };
@@ -95,7 +93,6 @@ const FormProvider = ({ children }) => {
         errors,
         editingStudent,
         students,
-        idValue,
     };
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
