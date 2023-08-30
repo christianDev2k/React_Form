@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ButtonStyled } from '../GlobalStyles';
 import { TableContext } from '../../context/TableContext';
 import { useSelector } from 'react-redux';
