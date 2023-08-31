@@ -24,11 +24,11 @@ const FormProvider = ({ children }) => {
         let mess = '';
         if (valueMissing) {
             mess = 'Vui lòng nhập ô này';
-        } else if (patternMismatch) {
+        } else if (patternMismatch || !element.value.trim().length) {
             mess = 'Nhập sai cú pháp';
         } else if (element.name === 'id' && isIDDuplicate(element.value)) {
             mess = 'ID bị trùng lặp';
-        }
+        } 
         return mess;
     };
 
