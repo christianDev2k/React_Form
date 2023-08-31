@@ -28,7 +28,7 @@ const FormProvider = ({ children }) => {
             mess = 'Nhập sai cú pháp';
         } else if (element.name === 'id' && isIDDuplicate(element.value)) {
             mess = 'ID bị trùng lặp';
-        } 
+        }
         return mess;
     };
 
@@ -63,9 +63,7 @@ const FormProvider = ({ children }) => {
 
         inputsNode.forEach(input => {
             const mess = validate(input);
-            if (mess) {
-                isTrue = false;
-            }
+            if (mess) isTrue = false;
             submitErrors = { ...submitErrors, [input.name]: mess };
         });
         setErrors(submitErrors);

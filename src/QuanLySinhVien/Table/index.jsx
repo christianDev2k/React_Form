@@ -13,14 +13,13 @@ const Table = () => {
     return (
         <div className='max-w-screen-lg mx-auto border mt-4'>
             <div className='p-4'>
-                <label htmlFor='price' className='block font-medium leading-6 text-gray-900'>
+                <label htmlFor='search' className='block font-medium leading-6 text-gray-900'>
                     Tìm kiếm:
                 </label>
                 <div className='flex items-center mt-1'>
                     <input
                         type='text'
-                        id='price'
-                        name='price'
+                        id='search'
                         value={searchValue}
                         onChange={e => setSearchValue(e.target.value)}
                         placeholder='Nguyễn Văn A'
